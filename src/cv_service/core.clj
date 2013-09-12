@@ -8,9 +8,10 @@
             [cv_service.me :as me]))
 
 (defroutes my_routes
+  (GET "/me/birth" [] (response (:birth me/me)))
   (GET "/me" [] (response me/me))
   (route/resources "/"))
 
 (def app (wrap-json-response my_routes))
 
-(defn -main [& args] (run-jetty my_routes {:port 9001}))
+(defn -main [& args] (run-jetty app {:port 9001}))
