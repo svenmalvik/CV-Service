@@ -10,18 +10,19 @@
 (defmacro bench [expr]
   `(let [start# (System/nanoTime)
          ret# ~expr]
-     (println
+     (prn
        (str
-         "Spend time "
-         '(expr)
-         (- (System/nanoTime) start#)))
+         "Elapsed time for "
+         '(~expr) ": "
+         (/ (double (- (System/nanoTime) start#)) 1000000.0)
+         " msec"))
      ret#))
 
 (defroutes my_routes
-  (GET "/me/birth" [] (response (:birth me/me)))
-  (GET "/me" [] (response me/me))
+  (GET "/me/birth" [] (bench (response (:birth me/me))))
+  (GET "/me" [] (bench (response me/me)))
   (route/resources "/"))
 
-(def app (bench (wrap-json-response my_routes)))
+(def app (wrap-json-response my_routes))
 
 (defn -main [& args] (run-jetty app {:port 9001}))
