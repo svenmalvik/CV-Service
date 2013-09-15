@@ -9,9 +9,12 @@
             [taoensso.timbre :as timbre
              :refer (trace debug info warn error fatal spy with-log-level)]))
 
+(defmacro bench [form]
+  `(spy :info (time ~form)))
+
 (defroutes my_routes
-  (GET "/me/birth" []   (spy :info (time (response (:birth me/me)))))
-  (GET "/me" []         (spy :info (time (response me/me))))
+  (GET "/me/birth" [] (bench (response (:birth me/me))))
+  (GET "/me" [] (bench (response me/me)))
   (route/resources "/"))
 
 (def app (wrap-json-response my_routes))
