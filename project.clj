@@ -10,4 +10,5 @@
                  [ring/ring "1.2.0"]
                  [ring/ring-json "0.2.0"]
                  [clj-time "0.6.0"]
+                 [com.taoensso/timbre "2.6.1"]
                  [compojure "1.2.0-SNAPSHOT"]])
